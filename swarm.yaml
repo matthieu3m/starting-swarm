@@ -17,7 +17,7 @@ services:
       - "8082:80"
     networks:
       - frontend
-      # on demande à docker de vérifier l'état de santé de nos conteneurs
+      # on demande à docker de vérifier l'état de santé de nos conteneurs.
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:80/index.html" ]
       interval: 30s
