@@ -1,0 +1,6 @@
+services:
+  website:
+    restart: unless-stopped
+    image: nginxinc/nginx-unprivileged:alpine3.21-perl
+    ports:
+      - "80:80"

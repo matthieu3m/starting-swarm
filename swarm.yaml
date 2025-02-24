@@ -1,0 +1,29 @@
+services:
+  demonginx:
+    image: linuxserver/nginx:latest
+    deploy:
+      mode: replicated
+      # on spécifie 2 copie (répliques)
+      replicas: 2
+      # on spécifie la facon dont on souhaite que docker swarm
+      # update nos conteneurs en cas de nouvelle version 
+      update_config:
+      # on utilise la politique dite "start first", qui définie qu'un conteneur
+      # de la nouvelle version doit etre demarrer et operationel avant 
+      # d'éteindre les autres répliques ou d'envoyer du traffic sur la nouvelle version
+        order: start-first
+    init: true # indique à docker  d'executer un processus qui excecutera notre application
+    ports:
+      - "8082:80"
+    networks:
+      - frontend
+      # on demande à docker de vérifier l'état de santé de nos conteneurs
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:80/index.html" ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+
+networks:
+  frontend:
